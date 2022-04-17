@@ -17,6 +17,8 @@ import { VisuallyHidden } from '../components/VisuallyHidden';
 import { msToNum } from '../utils/style';
 import { reflow } from '../utils/transition';
 
+const Home = lazy(() => import('../pages/Home'));
+
 // Contexts
 export const AppContext = createContext();
 export const TransitionContext = createContext();
@@ -74,7 +76,7 @@ const AppRoutes = () => {
               <div className="app__page" data-status={status}>
                 <Suspense fallback={<Fragment />}>
                   <Routes location={location} key={pathname}>
-                    {/* <Route path="/" element={<Home />} /> */}
+                    <Route path="/" element={<Home />} />
                   </Routes>
                 </Suspense>
               </div>

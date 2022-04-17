@@ -41,7 +41,6 @@ const ThemeProvider = ({
   // Gets the current theme in the context
   const parentTheme = useTheme();
   const isRootProvider = !parentTheme.themeId;
-  console.log(isRootProvider);
 
   // Save root theme id to localstorage and apply class to body
   useEffect(() => {

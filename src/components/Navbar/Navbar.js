@@ -4,8 +4,8 @@ import { useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 
+import { Monogram } from '../Monogram/Monogram';
 import { Icon } from '../Icon';
-import { Monogram } from '../Monogram';
 import { tokens } from '../ThemeProvider/theme';
 import { media, msToNum, numToMs } from '../../utils/style';
 import { useAppContext } from '../../hooks/useAppContext';
