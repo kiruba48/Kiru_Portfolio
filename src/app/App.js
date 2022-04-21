@@ -16,6 +16,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import { VisuallyHidden } from '../components/VisuallyHidden';
 import { msToNum } from '../utils/style';
 import { reflow } from '../utils/transition';
+import { Contact } from '../pages/Contact';
 
 const Home = lazy(() => import('../pages/Home'));
 
@@ -77,6 +78,7 @@ const AppRoutes = () => {
                 <Suspense fallback={<Fragment />}>
                   <Routes location={location} key={pathname}>
                     <Route path="/" element={<Home />} />
+                    <Route path="/contact" element={<Contact />} />
                   </Routes>
                 </Suspense>
               </div>

@@ -17,6 +17,8 @@ import { VisuallyHidden } from '../../components/VisuallyHidden';
 import { cssProps } from '../../utils/style';
 import { tokens } from '../../components/ThemeProvider/theme';
 
+const ElevatedPlane = lazy(() => import('./ElevatedPlane'));
+
 export function Intro({ id, disciplines, scrollIndicatorHidden, sectionRef, ...rest }) {
   const theme = useTheme();
   const [disciplineIndex, setDisciplineIndex] = useState(0);
@@ -65,9 +67,11 @@ export function Intro({ id, disciplines, scrollIndicatorHidden, sectionRef, ...r
       >
         {status => (
           <Fragment>
-            {/* {!prerender && (
-              <Suspense fallback={null}><DisplacementSphere /></Suspense>
-            )} */}
+            {!prerender && (
+              <Suspense fallback={null}>
+                <ElevatedPlane />
+              </Suspense>
+            )}
             <header className="intro__text">
               <h1 className="intro__name" data-status={status} id={titleId}>
                 <DecoderText text="Kiruba Muthupalani" start={!prerender} delay={300} />

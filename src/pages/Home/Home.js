@@ -6,10 +6,16 @@ import { useLocation } from 'react-router-dom';
 
 import iphone11 from '../../assets/iphone-11.glb';
 import macbookPro from '../../assets/macbook-pro.glb';
+import BachaFuriaTextureLarge from '../../assets/BachaFuria-Dark-large.jpg';
+import BachaFuriaTexturePlaceholder from '../../assets/BachaFuria-Dark-placeholder.jpg';
+import BachaFuriaTexture from '../../assets/BachaFuria-Dark.jpg';
+
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { useRouteTransition } from '../../hooks/useRouteTransition';
 import { Intro } from './Intro';
 import { ProjectSummary } from './ProjectSummary';
+import { Profile } from './Profile';
+import { Footer } from '../../components/Footer';
 
 const disciplines = ['JavaScript', 'React', 'Node', 'Python', 'Dbms'];
 
@@ -27,7 +33,7 @@ export const Home = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const revealSections = [intro, projectOne];
+    const revealSections = [intro, projectOne, details];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -148,8 +154,24 @@ export const Home = () => {
         title="Designing the future of education"
         description="Designing a platform to help educators build better online courseware"
         buttonText="View Project"
-        buttonLink="/projects/smart-sparrow"
+        buttonLink="/projects/BachaFuria"
+        model={{
+          type: 'laptop',
+          alt: 'BachaFuria Dance App',
+          textures: [
+            {
+              srcSet: [BachaFuriaTexture, BachaFuriaTextureLarge],
+              placeholder: BachaFuriaTexturePlaceholder,
+            },
+          ],
+        }}
       />
+      <Profile
+        sectionRef={details}
+        visible={visibleSections.includes(details.current)}
+        id="details"
+      />
+      <Footer />
     </div>
   );
 };
