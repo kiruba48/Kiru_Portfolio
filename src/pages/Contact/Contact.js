@@ -53,43 +53,69 @@ export const Contact = () => {
   const [complete, setComplete] = useState(false);
   const [statusError, setStatusError] = useState('');
 
+  const encode = data => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
+  };
+
   const onSubmit = useCallback(
-    async event => {
+    event => {
       event.preventDefault();
       setStatusError('');
 
       if (sending) return;
 
-      try {
-        setSending(true);
-
-        const response = await fetch('', {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email.value,
-            message: message.value,
-          }),
-        });
-        const responseMessage = await response.json();
-
-        const statusError = getStatusError({
-          status: response?.status,
-          errorMessage: responseMessage?.error,
-          fallback: 'There was a problem sending your message',
+      setSending(true);
+      // Netlify form functionality
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          'form-name': 'contact',
+          email: email.value,
+          message: message.value,
+        }),
+      })
+        .then(() => {
+          setComplete(true);
+          setSending(false);
+        })
+        .catch(() => {
+          setSending(false);
+          setStatusError('There was a problem sending your message');
         });
 
-        if (statusError) throw new Error(statusError);
+      // try {
+      //   setSending(true);
+      //   const response = await fetch('', {
+      //     method: 'POST',
+      //     mode: 'cors',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       email: email.value,
+      //       message: message.value,
+      //     }),
+      //   });
 
-        setComplete(true);
-        setSending(false);
-      } catch (error) {
-        setSending(false);
-        setStatusError(error.message);
-      }
+      //   const responseMessage = await response.json();
+
+      //   const statusError = getStatusError({
+      //     status: response?.status,
+      //     errorMessage: responseMessage?.error,
+      //     fallback: 'There was a problem sending your message',
+      //   });
+
+      //   if (statusError) throw new Error(statusError);
+
+      //   setComplete(true);
+      //   setSending(false);
+      // } catch (error) {
+      //   setSending(false);
+      //   setStatusError(error.message);
+      // }
     },
     [email.value, message.value, sending]
   );
@@ -139,6 +165,7 @@ export const Contact = () => {
               autoComplete="email"
               label="Your Email"
               type="email"
+              name="email"
               maxLength={512}
               {...email}
             />
@@ -151,6 +178,7 @@ export const Contact = () => {
               style={getDelay(tokens.base.durationS, initDelay)}
               autoComplete="off"
               label="Message"
+              name="message"
               maxLength={4096}
               {...message}
             />

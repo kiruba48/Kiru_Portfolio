@@ -23,6 +23,7 @@ export const Input = ({
   required,
   maxLength,
   type,
+  name,
   onChange,
   ...rest
 }) => {
@@ -71,6 +72,7 @@ export const Input = ({
           required={required}
           maxLength={maxLength}
           type={type}
+          name={name}
         />
         <div className="input__underline" data-focused={focused} />
       </div>

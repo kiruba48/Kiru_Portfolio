@@ -7,6 +7,7 @@ export const TextArea = ({
   className,
   resize = 'none',
   value,
+  name,
   onChange,
   minRows = 1,
   maxRows,
@@ -51,6 +52,7 @@ export const TextArea = ({
       style={cssProps({ resize })}
       rows={rows}
       value={value}
+      name={name}
       {...rest}
     />
   );
