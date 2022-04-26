@@ -20,24 +20,24 @@ import { Text } from '../../components/Text';
 
 const initDelay = tokens.base.durationS;
 
-function getStatusError({
-  status,
-  errorMessage,
-  fallback = 'There was a problem with your request',
-}) {
-  if (status === 200) return false;
+// function getStatusError({
+//   status,
+//   errorMessage,
+//   fallback = 'There was a problem with your request',
+// }) {
+//   if (status === 200) return false;
 
-  const statuses = {
-    500: 'There was a problem with the server, try again later',
-    404: 'There was a problem connecting to the server. Make sure you are connected to the internet',
-  };
+//   const statuses = {
+//     500: 'There was a problem with the server, try again later',
+//     404: 'There was a problem connecting to the server. Make sure you are connected to the internet',
+//   };
 
-  if (errorMessage) {
-    return errorMessage;
-  }
+//   if (errorMessage) {
+//     return errorMessage;
+//   }
 
-  return statuses[status] || fallback;
-}
+//   return statuses[status] || fallback;
+// }
 
 function getDelay(delayMs, initDelayMs = numToMs(0), multiplier = 1) {
   const numDelay = msToNum(delayMs) * multiplier;

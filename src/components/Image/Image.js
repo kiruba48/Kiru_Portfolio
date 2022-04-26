@@ -1,28 +1,28 @@
 import './Image.css';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Transition } from 'react-transition-group';
-import { useReducedMotion } from 'framer-motion';
+import { useCallback, useRef, useState } from 'react';
+// import { Transition } from 'react-transition-group';
+// import { useReducedMotion } from 'framer-motion';
 import { classes } from '../../utils/style';
 import { cssProps, numToMs } from '../../utils/style';
 import { useTheme } from '../ThemeProvider';
 import { useInViewport } from '../../hooks/useInViewport';
 import { prerender } from '../../utils/prerender';
-import {
-  PlaneGeometry,
-  ShaderMaterial,
-  Scene,
-  Vector2,
-  Mesh,
-  TextureLoader,
-  PerspectiveCamera,
-  AmbientLight,
-  WebGLRenderer,
-  sRGBEncoding,
-  Clock,
-} from 'three';
-import { fragment, vertex } from './ImageShaders';
-import { useWindowSize } from '../../hooks/useWindowSize';
+// import {
+//   PlaneGeometry,
+//   ShaderMaterial,
+//   Scene,
+//   Vector2,
+//   Mesh,
+//   TextureLoader,
+//   PerspectiveCamera,
+//   AmbientLight,
+//   WebGLRenderer,
+//   sRGBEncoding,
+//   Clock,
+// } from 'three';
+// import { fragment, vertex } from './ImageShaders';
+// import { useWindowSize } from '../../hooks/useWindowSize';
 
 export const Image = ({
   className,
@@ -86,22 +86,22 @@ const ImageElements = ({
   const imgSrc = src || srcSet?.split(' ')[0];
   const showFullRes = !prerender && inViewport;
 
-  const theme = useTheme();
-  const start = useRef(new Clock());
-  const canvasRef = useRef();
-  const mouse = useRef();
-  const renderer = useRef();
-  const camera = useRef();
-  const scene = useRef();
-  const material = useRef();
-  const geometry = useRef();
-  const wrapperRef = useRef();
-  const mesh = useRef();
-  const prefersReducedMotion = useReducedMotion();
-  let imageSizes = new Vector2(0, 0);
-  let imageOffset = new Vector2(0, 0);
-  const isInViewport = useInViewport(canvasRef);
-  const windowSize = useWindowSize();
+  // const theme = useTheme();
+  // const start = useRef(new Clock());
+  // const canvasRef = useRef();
+  // const mouse = useRef();
+  // const renderer = useRef();
+  // const camera = useRef();
+  // const scene = useRef();
+  // const material = useRef();
+  // const geometry = useRef();
+  // const wrapperRef = useRef();
+  // const mesh = useRef();
+  // const prefersReducedMotion = useReducedMotion();
+  // let imageSizes = new Vector2(0, 0);
+  // let imageOffset = new Vector2(0, 0);
+  // const isInViewport = useInViewport(canvasRef);
+  // const windowSize = useWindowSize();
 
   //   useEffect(() => {
   //     const { width, height } = wrapperRef.current.getBoundingClientRect();
@@ -210,7 +210,6 @@ const ImageElements = ({
       className="image__element-wrapper"
       data-reveal={reveal}
       data-visible={inViewport}
-      ref={wrapperRef}
       style={cssProps({ delay: numToMs(delay + 1000) })}
     >
       <img

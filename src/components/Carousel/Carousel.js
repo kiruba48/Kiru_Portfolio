@@ -2,7 +2,7 @@ import './Carousel.css';
 
 import { ReactComponent as ArrowLeft } from '../../assets/arrow-left.svg';
 import { ReactComponent as ArrowRight } from '../../assets/arrow-right.svg';
-import { animate, useReducedMotion } from 'framer-motion';
+import { animate } from 'framer-motion';
 import { useInViewport } from '../../hooks/useInViewport';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
