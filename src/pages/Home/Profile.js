@@ -10,6 +10,10 @@ import { Text } from '../../components/Text';
 import { Link } from '../../components/Link';
 import { Button } from '../../components/Button';
 import { Divider } from '../../components/Divider';
+import { Image } from '../../components/Image';
+import { media } from '../../utils/style';
+import kirubaMain from '../../assets/kiruba-main.jpg';
+import KirubaDance from '../../assets/kiruba-dance.jpg';
 
 const ProfileText = ({ status, titleId }) => (
   <Fragment>
@@ -69,7 +73,16 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   About Me
                 </div>
               </div>
-              <div className="profile__image-wrapper"></div>
+              <div className="profile__image-wrapper">
+                <Image
+                  reveal
+                  delay={100}
+                  src={`${kirubaMain}`}
+                  hoverImage={`${KirubaDance}`}
+                  sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
+                  alt="Me in a nature climbing and dance"
+                />
+              </div>
             </div>
           </div>
         )}

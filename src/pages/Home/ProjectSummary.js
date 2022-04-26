@@ -7,12 +7,11 @@ import { Transition } from 'react-transition-group';
 import { media } from '../../utils/style';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { Divider } from '../../components/Divider';
-import { useTheme } from '../../components/ThemeProvider';
+// import { useTheme } from '../../components/ThemeProvider';
 import { Heading } from '../../components/Heading';
 import { Text } from '../../components/Text';
-import { Model } from '../../components/Model';
-import { deviceModels } from '../../components/Model/deviceModels';
-import { isVisible, reflow } from '../../utils/transition';
+import { Carousel } from '../../components/Carousel';
+import { reflow } from '../../utils/transition';
 
 export const ProjectSummary = ({
   id,
@@ -21,21 +20,18 @@ export const ProjectSummary = ({
   index,
   title,
   description,
-  model,
+  images,
   buttonText,
   buttonLink,
   alternate,
   ...rest
 }) => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const titleId = `${id}-title`;
   const [focused, setFocused] = useState(false);
   const { width } = useWindowSize();
   const isMobile = width <= media.tablet;
-  const svgOpacity = theme.themeId === 'light' ? 0.7 : 1;
   const indexText = index < 10 ? `0${index}` : index;
-  const phoneSizes = `(max-width: ${media.tablet}px) 30vw, 20vw`;
-  const laptopSizes = `(max-width: ${media.tablet}px) 80vw, 40vw`;
 
   const renderDetails = status => {
     return (
@@ -63,63 +59,24 @@ export const ProjectSummary = ({
         <Text className="project-summary__description" data-status={status}>
           {description}
         </Text>
+        <div className="project-summary__button" data-status={status}>
+          <Button iconHoverShift href={buttonLink} iconEnd="arrowRight">
+            {buttonText}
+          </Button>
+        </div>
       </div>
     );
   };
 
-  const renderPreview = status => (
+  const renderPreview = () => (
     <div className="project-summary__preview">
-      {model.type === 'laptop' && (
-        <>
-          <Model
-            className="project-summary__model"
-            data-device="laptop"
-            alt={model.alt}
-            cameraPosition={{ x: 0, y: 0, z: 8 }}
-            showDelay={700}
-            show={isVisible(status)}
-            models={[
-              {
-                ...deviceModels.laptop,
-                texture: {
-                  ...model.textures[0],
-                  sizes: laptopSizes,
-                },
-              },
-            ]}
-          />
-        </>
-      )}
-      {model.type === 'phone' && (
-        <>
-          <Model
-            className="project-summary__model"
-            data-device="phone"
-            alt={model.alt}
-            cameraPosition={{ x: 0, y: 0, z: 11.5 }}
-            showDelay={300}
-            show={isVisible(status)}
-            models={[
-              {
-                ...deviceModels.phone,
-                position: { x: -0.6, y: 1.1, z: 0 },
-                texture: {
-                  ...model.textures[0],
-                  sizes: phoneSizes,
-                },
-              },
-              {
-                ...deviceModels.phone,
-                position: { x: 0.6, y: -0.5, z: 0.3 },
-                texture: {
-                  ...model.textures[1],
-                  sizes: phoneSizes,
-                },
-              },
-            ]}
-          />
-        </>
-      )}
+      <Carousel
+        style={{ maxWidth: 800, width: '100%' }}
+        images={images}
+        width={1920}
+        height={1400}
+      />
+      ;
     </div>
   );
 
@@ -138,19 +95,19 @@ export const ProjectSummary = ({
       {...rest}
     >
       <div className="project-summary__content">
-        <Transition in={sectionVisible} timeout={0} onEnter={reflow}>
+        <Transition in={sectionVisible || focused} timeout={0} onEnter={reflow}>
           {status => (
             <>
               {!alternate && !isMobile && (
                 <>
                   {renderDetails(status)}
-                  {/* {renderPreview(status)} */}
+                  {renderPreview()}
                 </>
               )}
               {(alternate || isMobile) && (
                 <>
+                  {renderPreview()}
                   {renderDetails(status)}
-                  {/* {renderPreview(status)} */}
                 </>
               )}
             </>

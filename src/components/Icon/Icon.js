@@ -12,6 +12,7 @@ import { ReactComponent as Pause } from '../../assets/icons/pause.svg';
 import { ReactComponent as Play } from '../../assets/icons/play.svg';
 import { ReactComponent as Send } from '../../assets/icons/send.svg';
 import { ReactComponent as Twitter } from '../../assets/icons/twitter.svg';
+import { ReactComponent as Linkedin } from '../../assets/icons/linkedin.svg';
 import { classes } from '../../utils/style';
 
 export const icons = {
@@ -27,6 +28,7 @@ export const icons = {
   play: Play,
   send: Send,
   twitter: Twitter,
+  linkedin: Linkedin,
 };
 
 export const Icon = ({ icon, style, className, ...rest }) => {

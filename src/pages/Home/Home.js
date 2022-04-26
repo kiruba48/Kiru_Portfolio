@@ -4,11 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 
-import iphone11 from '../../assets/iphone-11.glb';
-import macbookPro from '../../assets/macbook-pro.glb';
 import BachaFuriaTextureLarge from '../../assets/BachaFuria-Dark-large.jpg';
-import BachaFuriaTexturePlaceholder from '../../assets/BachaFuria-Dark-placeholder.jpg';
-import BachaFuriaTexture from '../../assets/BachaFuria-Dark.jpg';
+import BachaFuriaTextureRegisterPage from '../../assets/BachaFuria-register-page.jpg';
+import BachaFuriaTextureClassesSection from '../../assets/BachaFuria-classes-section.jpg';
+import BachaFuriaTextureContactPage from '../../assets/BachaFuria-contact-page.jpg';
+
+import HempireHomepage from '../../assets/Hempire-homepage.jpg';
+import HempireCart from '../../assets/Hempire-cart.jpg';
+import HempireAuth from '../../assets/Hempire-Auth.jpg';
+import HempireShop from '../../assets/Hempire-shop.jpg';
+import HempirePayment from '../../assets/Hempire-payment.jpg';
+import HempireAdminUsers from '../../assets/Hempire-Admin-users.jpg';
+import HempireAdminOrders from '../../assets/Hempire-Admin-orders.jpg';
 
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { useRouteTransition } from '../../hooks/useRouteTransition';
@@ -17,7 +24,15 @@ import { ProjectSummary } from './ProjectSummary';
 import { Profile } from './Profile';
 import { Footer } from '../../components/Footer';
 
-const disciplines = ['JavaScript', 'React', 'Node', 'Python', 'Dbms'];
+const disciplines = [
+  'JavaScript',
+  'React',
+  'TypeScript',
+  'Node',
+  'Python',
+  'Dbms',
+  'ThreeJs',
+];
 
 export const Home = () => {
   const { status } = useRouteTransition();
@@ -28,12 +43,12 @@ export const Home = () => {
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
-  const projectThree = useRef();
+  // const projectThree = useRef();
   const details = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const revealSections = [intro, projectOne, details];
+    const revealSections = [intro, projectOne, projectTwo, details];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -137,8 +152,6 @@ export const Home = () => {
           content="Portfolio of Kiruba MuthuPalani – a digital developer working on web &amp; mobile
           apps with a focus on motion and user experience design."
         />
-        <link rel="prefetch" href={iphone11} as="fetch" crossorigin="" />
-        <link rel="prefetch" href={macbookPro} as="fetch" crossorigin="" />
       </Helmet>
       <Intro
         id="intro"
@@ -151,20 +164,70 @@ export const Home = () => {
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index={1}
-        title="Designing the future of education"
-        description="Designing a platform to help educators build better online courseware"
-        buttonText="View Project"
-        buttonLink="/projects/BachaFuria"
-        model={{
-          type: 'laptop',
-          alt: 'BachaFuria Dance App',
-          textures: [
-            {
-              srcSet: [BachaFuriaTexture, BachaFuriaTextureLarge],
-              placeholder: BachaFuriaTexturePlaceholder,
-            },
-          ],
-        }}
+        title="BachaFuria: North East's Favorite Dance Community"
+        description="Design and Development, Built using: JavaScript, Sass, GSAP, Barba.js"
+        buttonText="View Website"
+        buttonLink="https://bachafuria.netlify.app/"
+        images={[
+          {
+            src: { src: `${BachaFuriaTextureLarge}`, width: 1600 },
+            alt: 'BachaFuria Website homepage',
+          },
+          {
+            src: { src: `${BachaFuriaTextureRegisterPage}`, width: 1600 },
+            alt: 'BachaFuria Register Interest page ',
+          },
+          {
+            src: { src: `${BachaFuriaTextureClassesSection}`, width: 1600 },
+            alt: 'BachaFuria classes section',
+          },
+          {
+            src: { src: `${BachaFuriaTextureContactPage}`, width: 1600 },
+            alt: 'BachaFuria contact page ',
+          },
+        ]}
+      />
+
+      <ProjectSummary
+        id="project-2"
+        alternate
+        sectionRef={projectTwo}
+        visible={visibleSections.includes(projectTwo.current)}
+        index={2}
+        title="MERN Stack E-commerce Application"
+        description="Design and development, Built using React, Redux, Bootstrap, Node/Express, MongoDb "
+        buttonText="View Website"
+        buttonLink="https://hempire.herokuapp.com/"
+        images={[
+          {
+            src: { src: `${HempireHomepage}`, width: 1600 },
+            alt: 'Hempire Website homepage',
+          },
+          {
+            src: { src: `${HempireAuth}`, width: 1600 },
+            alt: 'Hempire Auth page ',
+          },
+          {
+            src: { src: `${HempireShop}`, width: 1600 },
+            alt: 'Hempire shop section',
+          },
+          {
+            src: { src: `${HempireCart}`, width: 1600 },
+            alt: 'Hempire Cart section ',
+          },
+          {
+            src: { src: `${HempirePayment}`, width: 1600 },
+            alt: 'Hempire Payment page ',
+          },
+          {
+            src: { src: `${HempireAdminUsers}`, width: 1600 },
+            alt: 'Hempire Admin login users page ',
+          },
+          {
+            src: { src: `${HempireAdminOrders}`, width: 1600 },
+            alt: 'Hempire Admin login orders page ',
+          },
+        ]}
       />
       <Profile
         sectionRef={details}

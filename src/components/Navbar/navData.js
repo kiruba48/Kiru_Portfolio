@@ -18,12 +18,17 @@ export const navLinks = [
 export const socialLinks = [
   {
     label: 'Twitter',
-    //   url: 'https://twitter.com/hamishMW',
+    url: 'https://twitter.com/Kirubak60887066',
     icon: 'twitter',
   },
   {
     label: 'Github',
-    //   url: 'https://github.com/HamishMW',
+    url: 'https://github.com/kiruba48',
     icon: 'github',
+  },
+  {
+    label: 'Linkedin',
+    url: 'https://linkedin.com/in/kiruba48',
+    icon: 'linkedin',
   },
 ];

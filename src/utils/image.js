@@ -46,7 +46,7 @@ export function srcSetToString(srcSet = []) {
   if (typeof srcSet === 'string') {
     return srcSet;
   }
-  console.log(srcSet);
+
   return srcSet.map(item => `${item.src} ${item.width}w`).join(', ');
 }
 
@@ -79,7 +79,6 @@ export async function generateImage(width = 1, height = 1) {
 export async function resolveSrcFromSrcSet({ srcSet, sizes }) {
   const stringSrcSet = srcSetToString(srcSet);
 
-  console.log(stringSrcSet);
   const sources = await Promise.all(
     stringSrcSet.split(', ').map(async srcString => {
       const [src, width] = srcString.split(' ');

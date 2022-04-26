@@ -11,7 +11,7 @@ import { Navbar } from '../components/Navbar';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { tokens } from '../components/ThemeProvider/theme';
 import { initialState, reducer } from './reducer';
-import { prerender } from '../utils/prerender';
+// import { prerender } from '../utils/prerender';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { VisuallyHidden } from '../components/VisuallyHidden';
 import { msToNum } from '../utils/style';
@@ -24,16 +24,16 @@ const Home = lazy(() => import('../pages/Home'));
 export const AppContext = createContext();
 export const TransitionContext = createContext();
 
-const repoPrompt = `Taking a peek huh? Check out the source code: `;
+// const repoPrompt = `Taking a peek huh? Check out my code: `;
 
 export const App = () => {
   const [storedTheme] = useLocalStorage('theme', 'dark');
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if (!prerender) {
-      console.info(`${repoPrompt}\n\n`);
-    }
+    // if (!prerender) {
+    //   console.info(`${repoPrompt}\n\n`);
+    // }
 
     window.history.scrollRestoration = 'manual';
   }, []);

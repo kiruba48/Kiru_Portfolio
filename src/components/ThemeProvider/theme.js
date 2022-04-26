@@ -102,9 +102,11 @@ const dark = {
   rgbBackground: '17 17 17',
   rgbBackgroundLight: '26 26 26',
   // rgbPrimary: '0 229 255',
-  rgbPrimary: '125 160 240',
+  // rgbPrimary: '125 160 240',
+  rgbPrimary: '125, 214, 255',
   // rgbAccent: '0 229 255',  - original
-  rgbAccent: '125 160 240',
+  // rgbAccent: '125 160 240',
+  rgbAccent: '125, 214, 255',
   rgbText: '255 255 255',
   rgbError: '255 55 102',
   colorTextTitle: 'rgb(var(--rgbText) / 1)',
@@ -118,7 +120,8 @@ const light = {
   rgbBackgroundLight: '255 255 255',
   rgbPrimary: '0 0 0',
   // rgbAccent: '0 229 255',  -  original
-  rgbAccent: '125 160 240',
+  // rgbAccent: '125 160 240',
+  rgbAccent: '125, 214, 255',
   rgbText: '0 0 0',
   rgbError: '255 0 60',
   colorTextTitle: 'rgb(var(--rgbText) / 1)',

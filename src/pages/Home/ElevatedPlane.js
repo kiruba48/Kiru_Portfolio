@@ -6,8 +6,7 @@ import { useReducedMotion, useSpring } from 'framer-motion';
 import { useTheme } from '../../components/ThemeProvider';
 import { useInViewport } from '../../hooks/useInViewport';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
-import { media, rgbToThreeColor } from '../../utils/style';
+import { rgbToThreeColor } from '../../utils/style';
 import { reflow } from '../../utils/transition';
 import {
   Scene,
@@ -58,7 +57,7 @@ const ElevatedPlane = props => {
 
   useEffect(() => {
     const { innerWidth, innerHeight } = window;
-    mouse.current = new Vector2(0.8, 0.5);
+    mouse.current = new Vector2(0.0, 0.0);
 
     // New Scene
     scene.current = new Scene();
@@ -80,7 +79,7 @@ const ElevatedPlane = props => {
         // uSmallWavesElevation: { value: 0.15 },
         uSmallWavesElevation: { value: 4 },
         uSmallWavesFrequency: { value: 3 },
-        uSmallWavesSpeed: { value: 0.2 },
+        uSmallWavesSpeed: { value: 0.1 }, //previous value  - 0.2
         uSmallWavesIteration: { value: 4 },
 
         uDepthColor: { value: new Color(colorObject.depthColor) },
@@ -99,7 +98,6 @@ const ElevatedPlane = props => {
     //   Setting up camera
     camera.current = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100);
     camera.current.position.set(0, -5.5, 0);
-    // camera.current.position.z = 6;
 
     scene.current.add(camera.current);
 
@@ -107,8 +105,8 @@ const ElevatedPlane = props => {
     controls.current = new OrbitControls(camera.current, canvasRef.current);
     controls.current.enableDamping = true;
     controls.current.enableZoom = false;
-    // controls.current.enableRotate = false;
-    // controls.current.enabled = false;
+    controls.current.enableRotate = false;
+    controls.current.enabled = false;
 
     renderer.current = new WebGLRenderer({
       canvas: canvasRef.current,
@@ -131,24 +129,14 @@ const ElevatedPlane = props => {
 
   useEffect(() => {
     const { width, height } = windowSize;
-    const adjustedHeight = height + (height / 2) * 0.2;
-    renderer.current.setSize(width, adjustedHeight);
-    camera.current.aspect = width / adjustedHeight;
+    const adjustedWidth = width + width * 0.3;
+    renderer.current.setSize(adjustedWidth, height);
+    camera.current.aspect = adjustedWidth / height;
     camera.current.updateProjectionMatrix();
     // Render a single frame on resize when not animating
     if (prefersReducedMotion) {
       renderer.current.render(scene.current, camera.current);
     }
-    // if (width <= media.mobile) {
-    //   plane.current.position.x = 14;
-    //   plane.current.position.y = 10;
-    // } else if (width <= media.tablet) {
-    //   plane.current.position.x = 18;
-    //   plane.current.position.y = 14;
-    // } else {
-    //   plane.current.position.x = 22;
-    //   plane.current.position.y = 16;
-    // }
   }, [prefersReducedMotion, windowSize]);
 
   useEffect(() => {
@@ -181,8 +169,8 @@ const ElevatedPlane = props => {
       material.current.uniforms.uTime.value = elapsedTime;
 
       plane.current.rotation.z = elapsedTime * 0.25;
-      //   plane.current.rotation.x = 1.0 - rotationX.get();
-      //   plane.current.rotation.y = rotationY.get();
+      //   camera.current.rotation.x = rotationX.get();
+      //   camera.current.rotation.y = rotationY.get();
 
       // Update controls
       controls.current.update();
@@ -191,7 +179,6 @@ const ElevatedPlane = props => {
 
       animation = window.requestAnimationFrame(animate);
     };
-    // animate();
 
     if (!prefersReducedMotion && isInViewport) {
       animate();
