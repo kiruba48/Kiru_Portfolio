@@ -21,15 +21,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "react-snap",
+    "build:storybook": "build-storybook -o build-storybook",
     "storybook": "start-storybook -p 6006 -s public",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "reactSnap": {
-    "skipThirdPartyRequests": true,
-    "headless": true,
-    "crawl": true
   },
   "eslintConfig": {
     "extends": [
