@@ -1,6 +1,6 @@
 import './Footer.css';
 
-import { Link } from '../Link';
+// import { Link } from '../Link';
 
 export const Footer = () => {
   return (
