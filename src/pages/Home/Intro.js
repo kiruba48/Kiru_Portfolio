@@ -72,6 +72,7 @@ export function Intro({ id, disciplines, scrollIndicatorHidden, sectionRef, ...r
                 <ElevatedPlane />
               </Suspense>
             )}
+            {/* <ElevatedPlane /> */}
             <header className="intro__text">
               <h1 className="intro__name" data-status={status} id={titleId}>
                 <DecoderText text="Kiruba Muthupalani" start={!prerender} delay={300} />

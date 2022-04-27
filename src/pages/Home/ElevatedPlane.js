@@ -2,11 +2,11 @@ import './ElevatedPlane.css';
 
 import { useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
-import { useReducedMotion, useSpring } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import { useTheme } from '../../components/ThemeProvider';
 import { useInViewport } from '../../hooks/useInViewport';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { rgbToThreeColor } from '../../utils/style';
+import { media, rgbToThreeColor } from '../../utils/style';
 import { reflow } from '../../utils/transition';
 import {
   Scene,
@@ -25,11 +25,11 @@ import { cleanScene, cleanRenderer } from '../../utils/three';
 import fragShader from './planeFragmentShader';
 import vertShader from './planeVertexShader';
 
-const springConfig = {
-  stiffness: 30,
-  damping: 20,
-  mass: 2,
-};
+// const springConfig = {
+//   stiffness: 30,
+//   damping: 20,
+//   mass: 2,
+// };
 
 const colorObject = {
   depthColor: '#3b6497',
@@ -41,7 +41,7 @@ const ElevatedPlane = props => {
   const { rgbBackground, themeId } = theme;
   const start = useRef(new Clock());
   const canvasRef = useRef();
-  const mouse = useRef();
+  // const mouse = useRef();
   const renderer = useRef();
   const camera = useRef();
   const scene = useRef();
@@ -52,16 +52,28 @@ const ElevatedPlane = props => {
   const isInViewport = useInViewport(canvasRef);
   const prefersReducedMotion = useReducedMotion();
   const windowSize = useWindowSize();
-  const rotationX = useSpring(0, springConfig);
-  const rotationY = useSpring(0, springConfig);
 
   useEffect(() => {
     const { innerWidth, innerHeight } = window;
-    mouse.current = new Vector2(0.0, 0.0);
+    // mouse.current = new Vector2(0.0, 0.0);
+
+    renderer.current = new WebGLRenderer({
+      canvas: canvasRef.current,
+      antialias: false,
+      powerPreference: 'high-performance',
+    });
+    renderer.current.setSize(innerWidth, innerHeight);
+    renderer.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.current.outputEncoding = sRGBEncoding;
+
+    //   Setting up camera
+    camera.current = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100);
+    camera.current.position.set(0, -5.5, 0);
 
     // New Scene
     scene.current = new Scene();
 
+    scene.current.add(camera.current);
     // Setting up plane geometry
     geometry.current = new PlaneGeometry(2, 2, 512, 128);
 
@@ -95,27 +107,12 @@ const ElevatedPlane = props => {
     plane.current.rotation.y = 0.15;
     scene.current.add(plane.current);
 
-    //   Setting up camera
-    camera.current = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100);
-    camera.current.position.set(0, -5.5, 0);
-
-    scene.current.add(camera.current);
-
     // //   Setting up controls
     controls.current = new OrbitControls(camera.current, canvasRef.current);
     controls.current.enableDamping = true;
     controls.current.enableZoom = false;
     controls.current.enableRotate = false;
     controls.current.enabled = false;
-
-    renderer.current = new WebGLRenderer({
-      canvas: canvasRef.current,
-      antialias: false,
-      powerPreference: 'high-performance',
-    });
-    renderer.current.setSize(innerWidth, innerHeight);
-    renderer.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.current.outputEncoding = sRGBEncoding;
 
     return () => {
       cleanScene(scene.current);
@@ -129,55 +126,47 @@ const ElevatedPlane = props => {
 
   useEffect(() => {
     const { width, height } = windowSize;
-    const adjustedWidth = width + width * 0.3;
-    renderer.current.setSize(adjustedWidth, height);
-    camera.current.aspect = adjustedWidth / height;
+    // const adjustedWidth = width + width * 0.3;
+    renderer.current.setSize(width, height);
+    camera.current.aspect = width / height;
     camera.current.updateProjectionMatrix();
+    controls.current.update();
     // Render a single frame on resize when not animating
     if (prefersReducedMotion) {
       renderer.current.render(scene.current, camera.current);
     }
-  }, [prefersReducedMotion, windowSize]);
 
-  useEffect(() => {
-    const onMouseMove = event => {
-      const position = {
-        x: event.clientX / window.innerWidth,
-        y: event.clientY / window.innerHeight,
-      };
-
-      rotationX.set(position.y / 2);
-      rotationY.set(position.x / 2);
-    };
-
-    if (!prefersReducedMotion && isInViewport) {
-      window.addEventListener('mousemove', onMouseMove);
+    if (width <= media.mobile) {
+      plane.current.position.x = 0;
+      plane.current.position.y = 1;
+    } else if (width <= media.tablet) {
+      plane.current.position.x = 0;
+      plane.current.position.y = 0.75;
+    } else {
+      plane.current.position.x = 0;
+      plane.current.position.y = 0.25;
     }
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-    };
-  }, [isInViewport, prefersReducedMotion, rotationX, rotationY]);
+  }, [prefersReducedMotion, windowSize]);
 
   useEffect(() => {
     let animation;
 
     const animate = () => {
+      animation = window.requestAnimationFrame(animate);
+
       const elapsedTime = start.current.getElapsedTime();
 
       //   Animation for water shader
       material.current.uniforms.uTime.value = elapsedTime;
 
       plane.current.rotation.z = elapsedTime * 0.25;
-      //   camera.current.rotation.x = rotationX.get();
-      //   camera.current.rotation.y = rotationY.get();
 
       // Update controls
       controls.current.update();
 
       renderer.current.render(scene.current, camera.current);
 
-      animation = window.requestAnimationFrame(animate);
+      // animation = window.requestAnimationFrame(animate);
     };
 
     if (!prefersReducedMotion && isInViewport) {
@@ -189,7 +178,7 @@ const ElevatedPlane = props => {
     return () => {
       window.cancelAnimationFrame(animation);
     };
-  }, [isInViewport, prefersReducedMotion, rotationX, rotationY]);
+  }, [isInViewport, prefersReducedMotion]);
 
   return (
     <Transition appear in onEnter={reflow} timeout={3000}>
